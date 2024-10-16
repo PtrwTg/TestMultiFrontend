@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch Best Process Orders</title>
+</head>
+<body>
+    <h1>Fetching Best Process Orders...</h1>
+
+    <script>
+        // ตัวแปร Flag ใช้ตรวจสอบว่ามีการเรียก API แล้วหรือไม่
+        let hasFetched = false;
+
+        // ฟังก์ชันเรียก API
+        async function fetchBestProcessOrders() {
+            if (hasFetched) return; // ถ้าเรียกไปแล้วจะไม่เรียกซ้ำ
+
+            hasFetched = true; // ตั้งค่าให้รู้ว่าเรียกไปแล้ว
+
+            try {
+                const response = await fetch('http://localhost:8000/rank_best_process/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        product_codes: ['JA004TH', 'P91486AN']  // ใส่ Product codes ที่ต้องการ
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const blob = await response.blob();  // รับ JSON เป็น Blob
+                const url = window.URL.createObjectURL(blob);  // สร้าง URL จาก Blob
+                const a = document.createElement('a');  // สร้างลิงค์ใหม่
+                a.href = url;
+                a.download = 'best_process_orders.json';  // ชื่อไฟล์ที่จะดาวน์โหลด
+                a.style.display = 'none';  // ซ่อนลิงค์
+                document.body.appendChild(a);
+                a.click();  // จำลองการคลิกเพื่อดาวน์โหลดไฟล์
+                document.body.removeChild(a);  // ลบลิงค์หลังจากดาวน์โหลดเสร็จ
+
+                console.log("File downloaded successfully.");
+            } catch (error) {
+                console.error('Error fetching best process orders:', error);
+            }
+        }
+
+        // เรียก API เมื่อหน้าเว็บโหลดครั้งแรก
+        window.onload = function() {
+            fetchBestProcessOrders();  // เรียกฟังก์ชันเมื่อหน้าเว็บโหลด
+        };
+    </script>
+</body>
+</html>
