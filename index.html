@@ -24,6 +24,7 @@
                     headers: {
                         'Content-Type': 'application/json',
                     },
+                    // เปลี่ยนเป็นตัวแปรเรียกใช้กับค่าที่ผูกจาก VMIS
                     body: JSON.stringify({
                         product_codes: ['JA004TH', 'P91486AN']  // ใส่ Product codes ที่ต้องการ
                     })
@@ -40,7 +41,7 @@
                 a.download = 'best_process_orders.json';  // ชื่อไฟล์ที่จะดาวน์โหลด
                 a.style.display = 'none';  // ซ่อนลิงค์
                 document.body.appendChild(a);
-                a.click();  // จำลองการคลิกเพื่อดาวน์โหลดไฟล์
+                a.click();  
                 document.body.removeChild(a);  // ลบลิงค์หลังจากดาวน์โหลดเสร็จ
 
                 console.log("File downloaded successfully.");
