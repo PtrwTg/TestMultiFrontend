@@ -25,7 +25,7 @@
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({ product_codes: ['JA004TH', 'EA104TH','GZ301TH','ALZ44TH','J2000PIBD'] }) // รหัสสินค้าที่พี่ติ่งต้องการเรียกดู
-                });
+                });//J2000PIBD เป็นรหัสสีที่ไม่มีข้อมูลผ่าน RFT เลย
 
                 const data = await response.json();
                 
